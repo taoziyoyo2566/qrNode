@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Response</title>
+    <!-- 引入 Clipboard.js 库 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
+    <!-- 引入 jQuery 库 -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<h1>NODE INFO</h1>
+<pre id="apiResponse">
+        <!-- 这里将显示 REST API 返回的内容 -->
+    </pre>
+<button id="fetchButton">获取 API 内容</button>
+<button id="copyButton">复制</button>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    $(document).ready(function () {
+        $('#fetchButton').click(function () {
+            // 发送 AJAX 请求获取 API 返回的内容
+            $.get('/api/v1/readVlessContent', function (data) {
+                // 显示 API 返回的内容
+                $('#apiResponse').text(JSON.stringify(data, null, 2));
+            })
+                .fail(function (error) {
+                    console.error('There was a problem with the fetch operation:', error);
+                    alert('获取 API 内容失败，请稍后重试。');
+                });
+        });
+
+        // 初始化 Clipboard.js
+        new ClipboardJS('#copyButton', {
+            text: function () {
+                // 获取 API 返回的内容
+                return $('#apiResponse').text();
+            }
+        })
+            .on('success', function (e) {
+                // 复制成功时的处理
+                alert('已复制到剪贴板！');
+            })
+            .on('error', function (e) {
+                // 复制失败时的处理
+                alert('复制失败，请手动复制。');
+            });
+    });
+    /*]]>*/
+</script>
+</body>
+</html>

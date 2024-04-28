@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Display</title>
+    <!-- 引入 jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <!-- 引入 qrcode.min.js -->
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+        <!-- 其他 head 元素... -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
+</head>
+<body>
+<td>
+<h1>QR Code Display</h1>
+
+<div id="qrcode"></div>
+
+<script th:inline="javascript">
+    $(document).ready(function () {
+        // 使用 jQuery 发送 AJAX 请求获取 Java API 的数据
+        $.get('/api/v1/readVlessContent', function(data) {
+            if (data.status === 'success') {
+                // 如果请求成功，使用 qrcode.min.js 生成 QR Code
+                var qrcode = new QRCode(document.getElementById('qrcode'), {
+                    text: data.vlessContent,
+                    width: 128,
+                    height: 128
+                });
+            } else {
+                console.error('Error:', data.message);
+            }
+        });
+    });
+</script>
+</td>
+<td>
+    <h1>COPY</h1>
+    <pre id="apiResponse">vless://9d632f82-f132-45ed-98ac-a05af4fa33b1@199.180.117.128:8443?encryption=none&security=reality&type=tcp&sni=www.apple.com&fp=chrome&pbk=oqV8q63Yz7ztL8h1tvlBjdepkgWLI1AgH-NAG6JqxnA&flow=xtls-rprx-vision#docker_vless_reality_vision</pre>
+
+    <button id="copyButton" data-clipboard-target="#apiResponse">COPY</button>
+
+    <script>
+        // 初始化 Clipboard.js
+        var clipboard = new ClipboardJS('#copyButton');
+
+        clipboard.on('success', function (e) {
+            // 复制成功时的处理
+            alert('COPY SUCCESS!');
+        });
+
+        clipboard.on('error', function (e) {
+            // 复制失败时的处理
+            alert('COPY FAILED,TRY AGAIN。');
+        });
+    </script>
+</td>
+
+
+</body>
+</html>
