@@ -15,36 +15,7 @@ public class DockerController {
     @GetMapping("/read-config")
     // public String readDockerConfig(@RequestParam String instanceName) {
     public String readDockerConfig(@RequestParam("instanceName") String instanceName) {
-        System.out.println("instanceName: " + instanceName);
-
-        // try {
-        // List<String> command = new ArrayList<>();
-        // command.add("docker");
-        // command.add("exec");
-        // command.add("-it");
-        // command.add(instanceName);
-        // command.add("cat");
-        // command.add("config.txt");
-        // // command.add("ls -al ~/");
-        // System.out.println(command);
-        // ProcessBuilder processBuilder = new ProcessBuilder(command);
-        // Process process = processBuilder.start();
-
-        // BufferedReader reader = new BufferedReader(new
-        // InputStreamReader(process.getInputStream()));
-        // System.out.println(reader.toString());
-        // StringBuilder response = new StringBuilder();
-        // String line;
-        // while ((line = reader.readLine()) != null) {
-        // System.out.println(line); // 直接打印每一行输出
-        // response.append(line).append("\n");
-        // }
-        // System.out.println(response.toString());
-        // return response.toString();
-        // } catch (Exception e) {
-        // e.printStackTrace();
-        // return "Error executing command";
-        // }
+    
         try {
             instanceName="vless_reality_0422";
             List<String> command = new ArrayList<>();
