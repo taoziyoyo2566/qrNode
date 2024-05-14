@@ -56,7 +56,31 @@
         });
     </script>
 </td>
+<td>
+    <h1>读取Docker配置文件</h1>
+    <form id="dockerForm">
+        <label for="instanceName">Docker实例名:</label>
+        <input type="text" id="instanceName" name="instanceName" required>
+        <button type="button" onclick="fetchConfig()">读取配置</button>
+    </form>
+    <pre id="configContent">配置内容将显示在这里...</pre>
 
+    <script>
+        function fetchConfig() {
+            
+            var instanceName = document.getElementById("instanceName").value;
+            
+            fetch(`/read-config?instanceName=${instanceName}`)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById("configContent").textContent = data;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+    </script>   
+</td>
 
 </body>
 </html>

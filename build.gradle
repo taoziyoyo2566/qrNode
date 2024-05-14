@@ -7,6 +7,12 @@ plugins {
 group = 'net.taoziyoyo'
 version = '0.0.1-SNAPSHOT'
 
+compileJava {
+    options.compilerArgs += ['-parameters']
+    sourceCompatibility = '17' // 或更高版本
+    targetCompatibility = '17' // 或更高版本
+}
+
 java {
     sourceCompatibility = '17'
 }
